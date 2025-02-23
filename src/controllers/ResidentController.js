@@ -35,10 +35,10 @@ class ResidentController {
             const {documentNumber} = req.body;
 
             const existingResident = await Resident.findOne({
-                where: {documentNumber}
+                where: {documentNumber, id: {$ne: id}}
             });
             
-            if (existingResident && existingResident.id !== id) {
+            if (existingResident) {
                 return res.status(400).json({ message: 'El número de documento ya está en uso' });
             }
 

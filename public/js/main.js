@@ -4,6 +4,12 @@ class ResidentUI {
     static async loadResidents() {
         try {
             const response = await fetch('/api/residents');
+            
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || 'Error al cargar los residentes');
+            }
+
             const residents = await response.json();
             const tbody = document.getElementById('residentsList');
             
@@ -38,8 +44,8 @@ class ResidentUI {
                 </tr>
             `).join('');
         } catch (error) {
-            console.error('Error cargando residentes:', error);
-            alert('Error al cargar los residentes');
+            console.error('Error:', error);
+            alert(error.message);
         }
     }
 
@@ -74,19 +80,19 @@ class ResidentUI {
                 body: JSON.stringify(formData)
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Error en la operación. ' );
+                throw new Error(data.message || 'Error en la operación');
             }
 
-            console.log(this.currentId);
-
-            const message = this.currentId !=null ? 'Residente actualizado exitosamente' : 'Residente creado exitosamente'; 
+            const message = this.currentId ? 'Residente actualizado exitosamente' : 'Residente creado exitosamente';
             await this.loadResidents();
             this.clearForm();
             alert(message);
         } catch (error) {
-            console.log(error)
-            alert('Error al guardar el residente. ' + error.message);
+            console.error('Error:', error);
+            alert(error.message);
         }
     }
 
@@ -110,6 +116,12 @@ class ResidentUI {
     static async editResident(id) {
         try {
             const response = await fetch(`/api/residents/${id}`);
+            
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || 'Error al cargar el residente');
+            }
+
             const resident = await response.json();
             
             this.currentId = id;
@@ -130,8 +142,8 @@ class ResidentUI {
             // Hacer scroll al formulario
             document.getElementById('residentForm').scrollIntoView({ behavior: 'smooth' });
         } catch (error) {
-            console.error('Error cargando residente:', error);
-            alert('Error al cargar los datos del residente');
+            console.error('Error:', error);
+            alert(error.message);
         }
     }
 
@@ -145,15 +157,17 @@ class ResidentUI {
                 method: 'DELETE'
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Error al eliminar');
+                throw new Error(data.message || 'Error al eliminar el residente');
             }
 
             await this.loadResidents();
-            alert('Residente eliminado exitosamente');
+            alert(data.message || 'Residente eliminado exitosamente');
         } catch (error) {
             console.error('Error:', error);
-            alert('Error al eliminar el residente');
+            alert(error.message);
         }
     }
 
