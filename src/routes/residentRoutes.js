@@ -14,4 +14,7 @@ router.put('/:id', ResidentController.updateResident);
 // Ruta para eliminar un residente
 router.delete('/:id', ResidentController.deleteResident);
 
+// Ruta para obtener un residente por ID
+router.get('/:id', ResidentController.getResidentById);
+
 module.exports = router; 

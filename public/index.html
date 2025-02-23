@@ -14,10 +14,12 @@
 
         <!-- Formulario de creación/edición -->
         <form id="residentForm" class="mb-8 bg-white p-6 rounded-lg shadow-md">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="hidden" id="residentId">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                     <label class="block mb-2">Tipo de Documento</label>
-                    <select id="documentType" class="w-full p-2 border rounded">
+                    <select id="documentType" required class="w-full p-2 border rounded">
+                        <option value="">Seleccione...</option>
                         <option value="dni">DNI</option>
                         <option value="ce">CE</option>
                         <option value="pa">PA</option>
@@ -25,29 +27,83 @@
                 </div>
                 <div>
                     <label class="block mb-2">Número de Documento</label>
-                    <input type="text" id="documentNumber" class="w-full p-2 border rounded">
+                    <input type="text" id="documentNumber" required class="w-full p-2 border rounded">
                 </div>
-                <!-- Más campos del formulario... -->
+                <div>
+                    <label class="block mb-2">Nombres</label>
+                    <input type="text" id="firstName" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-2">Apellido Paterno</label>
+                    <input type="text" id="paternalLastName" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-2">Apellido Materno</label>
+                    <input type="text" id="maternalLastName" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-2">Número de Edificio</label>
+                    <input type="number" id="buildingNumber" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-2">Número de Departamento</label>
+                    <input type="number" id="apartmentNumber" required class="w-full p-2 border rounded">
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="isOwner" class="form-checkbox">
+                            <span class="ml-2">Es Propietario</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="isTenant" class="form-checkbox">
+                            <span class="ml-2">Es Inquilino</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="hasDebt" class="form-checkbox">
+                            <span class="ml-2">Tiene Deuda</span>
+                        </label>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                Guardar
-            </button>
+            <div class="mt-6 flex justify-end space-x-4">
+                <button type="button" onclick="ResidentUI.clearForm()"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    Limpiar
+                </button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Guardar
+                </button>
+            </div>
         </form>
 
         <!-- Tabla de residentes -->
-        <div class="overflow-x-auto">
-            <table class="w-full bg-white rounded-lg shadow-md">
-                <thead class="bg-gray-100">
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="w-full">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th class="p-3 text-left">Documento</th>
-                        <th class="p-3 text-left">Nombres</th>
-                        <th class="p-3 text-left">Apellidos</th>
-                        <th class="p-3 text-left">Edificio</th>
-                        <th class="p-3 text-left">Departamento</th>
-                        <th class="p-3 text-left">Acciones</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Documento
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Nombres y Apellidos
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Ubicación
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Estado
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Acciones
+                        </th>
                     </tr>
                 </thead>
-                <tbody id="residentsList">
+                <tbody id="residentsList" class="bg-white divide-y divide-gray-200">
                     <!-- Los residentes se cargarán aquí dinámicamente -->
                 </tbody>
             </table>

@@ -49,6 +49,19 @@ class ResidentController {
             res.status(500).json({ message: error.message });
         }
     }
+
+    static async getResidentById(req, res) {
+        try {
+            const resident = await Resident.findByPk(req.params.id);
+            if (resident) {
+                res.json(resident);
+            } else {
+                res.status(404).json({ message: 'Residente no encontrado' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = ResidentController; 
