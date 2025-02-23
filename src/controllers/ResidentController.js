@@ -12,6 +12,15 @@ class ResidentController {
 
     static async createResident(req, res) {
         try {
+            const {documentNumber} = req.body;
+            const existingResident = await Resident.findOne({
+                where: {documentNumber}
+            });
+            
+            if (existingResident) {
+                return res.status(400).json({ message: 'El número de documento ya está en uso' });
+            }
+            
             const newResident = await Resident.create(req.body);
             res.status(201).json(newResident);
         } catch (error) {
@@ -21,11 +30,23 @@ class ResidentController {
 
     static async updateResident(req, res) {
         try {
+
+            const {id} = req.params;
+            const {documentNumber} = req.body;
+
+            const existingResident = await Resident.findOne({
+                where: {documentNumber}
+            });
+            
+            if (existingResident && existingResident.id !== id) {
+                return res.status(400).json({ message: 'El número de documento ya está en uso' });
+            }
+
             const [updated] = await Resident.update(req.body, {
-                where: { id: req.params.id }
+                where: { id: id }
             });
             if (updated) {
-                const updatedResident = await Resident.findByPk(req.params.id);
+                const updatedResident = await Resident.findByPk(id);
                 res.json(updatedResident);
             } else {
                 res.status(404).json({ message: 'Residente no encontrado' });

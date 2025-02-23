@@ -3,6 +3,7 @@ const cors = require('cors');
 const config = require('./config/config');
 const sequelize = require('./config/database');
 const residentRoutes = require('./routes/residentRoutes');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -10,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-
+app.use(morgan('dev'));
 // Routes
 app.use('/api/residents', residentRoutes);
 
