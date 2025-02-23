@@ -14,6 +14,7 @@
 
         <!-- Formulario de creación/edición -->
         <form id="residentForm" class="mb-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 id="formTitle" class="text-xl font-semibold mb-6 text-gray-700">Nuevo Residente</h2>
             <input type="hidden" id="residentId">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
@@ -75,7 +76,8 @@
                     class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                     Limpiar
                 </button>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                <button type="submit" id="submitButton"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Guardar
                 </button>
             </div>

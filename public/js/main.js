@@ -75,15 +75,35 @@ class ResidentUI {
             });
 
             if (!response.ok) {
-                throw new Error('Error en la operación');
+                throw new Error('Error en la operación. ' );
             }
 
+            console.log(this.currentId);
+
+            const message = this.currentId !=null ? 'Residente actualizado exitosamente' : 'Residente creado exitosamente'; 
             await this.loadResidents();
             this.clearForm();
-            alert(this.currentId ? 'Residente actualizado exitosamente' : 'Residente creado exitosamente');
+            alert(message);
         } catch (error) {
-            console.error('Error:', error);
-            alert('Error al guardar el residente');
+            console.log(error)
+            alert('Error al guardar el residente. ' + error.message);
+        }
+    }
+
+    static setFormMode(mode = 'create') {
+        const formTitle = document.getElementById('formTitle');
+        const submitButton = document.getElementById('submitButton');
+        
+        if (mode === 'edit') {
+            formTitle.textContent = 'Editar Residente';
+            submitButton.textContent = 'Actualizar';
+            submitButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+            submitButton.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+        } else {
+            formTitle.textContent = 'Nuevo Residente';
+            submitButton.textContent = 'Guardar';
+            submitButton.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+            submitButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
         }
     }
 
@@ -103,6 +123,12 @@ class ResidentUI {
             document.getElementById('isOwner').checked = resident.isOwner;
             document.getElementById('isTenant').checked = resident.isTenant;
             document.getElementById('hasDebt').checked = resident.hasDebt;
+
+            // Cambiar modo del formulario a edición
+            this.setFormMode('edit');
+            
+            // Hacer scroll al formulario
+            document.getElementById('residentForm').scrollIntoView({ behavior: 'smooth' });
         } catch (error) {
             console.error('Error cargando residente:', error);
             alert('Error al cargar los datos del residente');
@@ -134,6 +160,7 @@ class ResidentUI {
     static clearForm() {
         this.currentId = null;
         document.getElementById('residentForm').reset();
+        this.setFormMode('create');
     }
 }
 
