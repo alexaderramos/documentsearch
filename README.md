@@ -7,7 +7,7 @@ Sistema web para la gestión de residentes de un edificio, desarrollado con Node
 1. Clonar el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/resident-management.git
+git clone https://github.com/alexaderramos/documentsearch
 ```
 
 2. Instalar dependencias:
